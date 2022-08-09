@@ -1,0 +1,11 @@
+If your screen has an resolution above 1920x1080, everything will be too small.
+
+
+1. touch .Xresources
+2. vim .Xresources
+3. add Xft.dpi:226
+4. run: xrdb .Xresources
+5. This is only temporary. Command number 4 must be run every restart. Add command 4 to startup scripts.
+
+This DPI number is for your laptop, that has an 3K screen with 3072x1920 resolution.
+You must adjust it to your resolution according. Just experiment with it.

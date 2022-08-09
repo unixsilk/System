@@ -1,0 +1,12 @@
+Making i3 not use Alt-gr as mod-key. Your Notebook had the problem that if you set set left alt as mod key for i3, it also used the right alt-gr key as mod. So the problem was that you couldnt type @ because alt-gr is already in use.
+
+
+
+
+How to deactivate the right Alt-gr key:
+
+1. run xev command and remember they keycode when you press rigght Alt-gr key.
+
+2. xmodmap -e 'keycode KEYCODEOFALTGRKEYWHENPRESSINGINXEV = NoSymbol'
+
+3. reboot 

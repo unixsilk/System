@@ -1,0 +1,9 @@
+If your applications like, virt-manager and firefox dont start, they you have an issue with flatpak.
+
+
+1. run: pacman -Rs flatpak (this will not delete your flatpak apps)
+2. run: pacamn -S flatpak
+3. choose number 4, the community edition, because 1 creates that problem. (xdg-desktop..... is the cause if this issue) 
+4. reboot
+
+Problem should now be fixed.

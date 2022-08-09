@@ -1,0 +1,13 @@
+If you made a mistake while installing arch, your locale is not set right. This results in öüä keys messing up your terminal.
+You will also see falling back on C locale, when starting an application with terminal.
+
+
+1. run: echo "LANG=de_CH.utf8" > /etc/locale.conf
+2. run: locale-gen
+3. reboot
+
+If that doesnt help:
+1. run: export LANG=de_CH.utf8
+2. reboot
+
+This should fix it, you can check by running a programming with terminal.

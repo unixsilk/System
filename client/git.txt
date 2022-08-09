@@ -1,0 +1,6 @@
+how to operate git
+
+1. $ git add -A
+2. $ git commit
+remove # from changes/added files
+3. git push

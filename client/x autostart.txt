@@ -1,0 +1,59 @@
+autostart X:
+
+1. $ vim ~/.bash_profile
+2. paste this text: 
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  exec startx
+fi
+3. done
+
+
+if Xorg crashes, then it's because of the gpu driver. Do this to make Xorg not crash. You basically have to add drivername to an early KMS start.
+1. $ grep vga /proc/cmdline
+2. $ grep -ir vga /etc/modprobe.d/
+3. if commmand 1 and 2 gives you a result, for example like vga= and video=, remove the lines containing vga= and video= from /proc/cmdline and /etc/modprobe.d/
+4. deinstall uvesafb-dkms package
+5. # vim /etc/mkinitcpio.conf
+6. Now you have to add one of this gpu driver names to Modules:
+
+""
+amdgpu for AMDGPU, or radeon when using the legacy ATI driver.
+i915 for Intel graphics.
+nouveau for the open-source Nouveau driver.
+nvidia nvidia_modeset nvidia_uvm nvidia_drm for nvidia driver. See NVIDIA#DRM kernel mode setting for details.
+mgag200 for Matrox graphics.
+Depending on QEMU graphics in use (qemu option -vga type or libvirt <video><model type='type'>[1]):
+bochs for std (qemu) and vga/bochs (libvirt),
+virtio-gpu for virtio,
+qxl for qxl,
+vmwgfx for vmware (qemu) and vmvga (libvirt),
+cirrus for cirrus.
+Depending on VirtualBox graphics controller:
+vmwgfx for VMSVGA,
+vboxvideo for VBoxVGA or VBoxSVGA.
+3. Choose the one based on your gpu driver.
+4. example : amdgpu for AMDGPU, or radeon when using the legacy ATI driver.
+i915 for Intel graphics.
+nouveau for the open-source Nouveau driver.
+nvidia nvidia_modeset nvidia_uvm nvidia_drm for nvidia driver. See NVIDIA#DRM kernel mode setting for details.
+mgag200 for Matrox graphics.
+Depending on QEMU graphics in use (qemu option -vga type or libvirt <video><model type='type'>[1]):
+bochs for std (qemu) and vga/bochs (libvirt),
+virtio-gpu for virtio,
+qxl for qxl,
+vmwgfx for vmware (qemu) and vmvga (libvirt),
+cirrus for cirrus.
+Depending on VirtualBox graphics controller:
+vmwgfx for VMSVGA,
+vboxvideo for VBoxVGA or VBoxSVGA.
+""
+
+7. example: MODULES=(amdgpu) 
+8. regenerate mkinitcpio.conf with: # mkinitcpio -p linux
+9. done
+10. Read more about it here:
+
+""
+https://wiki.archlinux.org/title/kernel_mode_setting#Early_KMS_start
+
+""

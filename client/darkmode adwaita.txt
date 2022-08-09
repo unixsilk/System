@@ -1,0 +1,7 @@
+In a base arch installation, you will only have Adwaite white theme installed. This will make adwaita black.
+
+1. run: pacman -S gnome-themes-extra lxappearance
+2. start lxappearance
+3. choose Adwaita dark as theme
+4. run: pacman -Rs lxappearance
+5. done

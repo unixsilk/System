@@ -1,0 +1,20 @@
+To make arch audio work with a window manager you need these packages:
+
+alsa-utils
+pulseaudio
+pamixer
+playerctl
+
+##################################################################################################
+
+Use these commands for controlling volume:
+Volume Up:	pamixer -i 5
+Volume Down:	pamixer -d 5
+Toggle Volume:	pamixer --toggle-mute
+Play-Pause:	playerctl play-plause
+Next:		playerctl next
+Previous:	playerctl previous
+
+##################################################################################################
+
+That's all so far.

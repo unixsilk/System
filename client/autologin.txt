@@ -1,0 +1,12 @@
+autologin:
+
+1. create this /etc/systemd/system/getty@tty1.service.d/override.conf
+
+2. input this text in that file: 
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin yourusername --noclear %I $TERM
+Type=idle
+
+3. Must be 100% exact written no funtion!
+

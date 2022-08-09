@@ -1,0 +1,26 @@
+#This will make vim & and the clipboard work
+
+1. Packages to install:
+
+neovim xsel
+
+################################################################################
+
+2. Starting neovim with vim command instead of nvim:
+copy /etc/skel/.bashrc to ~/.bashrc
+copy /etc/skel/.bashrc to /root/.bashrc  
+
+add to both user and root the following line at the end of .bashrc:
+
+alias vim="nvim"
+
+
+################################################################################
+
+3. config file:
+
+config file is located at .config/nvim/init.vim
+
+config file should look like this:
+set clipboard+=unnamedplus
+set number
