@@ -1,0 +1,122 @@
+Nextcloud installieren auf Debian 11
+
+
+
+Diese Anleitung basiert auf folgenden Link: https://computingforgeeks.com/how-to-install-and-configure-nextcloud-on-debian/
+
+
+Das wird gemacht:
+Folgende Packete müssen installiert werden
+Mariadb Konfiguration
+Apache2 Konfiguration
+Fehler Meldungen beheben
+Nextcloud installieren
+Nextcloud konfigurieren
+
+
+
+1. Folgende Packete müssen installiert werden
+apt install php php-cli php-xml php-zip php-curl php-gd php-cgi php-mysql php-mbstring mariadb-server mariadb-client apache2 libapache2-mod-php wget unzip php-gmp php-bcmath php-intl php-apcu -y
+
+
+
+2. Mariadb Konfiguration
+Nach der installation aller Pakete, muss das System jetzt konfiguriert werden.
+
+command: mysql_secure_installation
+Set root password? N
+Create new root password? Y
+Dies ist das Password für Mariadb. Das wirst du nicht mehr brauchen. Trotztdem unbedingt
+speichern.
+Jetzt kannst du immer mit Y weitermachen bis der Skript endet.
+
+mysql -u root
+UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE User = 'root';
+FLUSH PRIVILEGES;
+QUIT
+
+mysql -u root -p
+CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'StrongDBP@SSwo$d';
+CREATE DATABASE nextcloud;
+GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost';
+FLUSH PRIVILEGES;
+QUIT
+
+
+
+3. Apache2 Konfiguration
+command vim: etc/php/*/apache2/php.ini
+Folgende werte einstellen:
+date.timezone = Switzerland/Zurich
+memory_limit = 2000M
+upload_max_filesize = 100000GB
+post_max_size = 100000GB
+max_execution_time = 300
+Nach dem du fertig bist mit den einstellen der werten, kannst du die Datei Speichern.
+Das währe alles, nun starte Apache2 neu mit folgenden Command:
+
+
+
+4. Fehler Meldungen beheben
+Schritt 1: php output_buffering deaktieren:
+Auf folgenden Dateien sollte diese Textzeile stehen:output_buffering = 0
+etc/php/*/apache2/php.ini
+/var/www/html/nextcloud/.htaccess
+/var/www/html/nextcloud/.user.ini
+
+Nachdem du bei allen Dateien das gemacht hast, musst du noch mehr machen.
+Gehe wieder auf vim etc/php/*/apache2/php.ini
+Suchezwei mal nach output_buffering
+Beim zweiten suchen wird folgende Textzeile stehen:
+output_buffering = 4096
+Ändere diese Zeile mit folgenden Text:
+; output_buffering = 4096
+damit wird die Zeile deaktiviert
+
+Schritt 2: IHR DATENVERZEICHNIS UND IHRE DATEIEN SIND WAHRSCHEINLICH VOM INTERNET AUS ERREICHBAR. DIE .HTACCESS-DATEI FUNKTIONIERT NICHT. ES WIRD DRINGEND EMPFOHLEn....
+Gehe auf vim /etc/apache2/apache2.conf
+suche nach /var/www/>
+unten dran sollte folgendes stehen: AllowOverride None
+ändere es auf: AllowOverride All
+
+Schritt 3: PHP-Memory-Cache
+öffne vim /var/www/html/nextcloud/config/config.php
+folgende Zeile hinzufügen:
+'memcache.local' => '\\OC\\Memcache\\APCu'
+Nun kannst du Apache neu starten mit dem befehl:
+systemctl restart apache2
+
+
+
+5. Nextcloud installieren
+Nextcloud herunterladen, entzippen und verschieben auf:
+mv nextcloud /var/www/html/
+chown -R www-data:www-data /var/www/html/nextcloud
+sudo chmod -R 755 /var/www/html/nextcloud
+
+Nextcloud ist nun installiert.
+
+
+
+6. Nextcloud Konfigurieren
+Öffne http://IPADRESSEDIESESSERVER/nextcloud
+Oben musst du ein neues Account mit neuem Namen und Password erstellen.
+Unten kannst du überall nextcloud eingeben ausser bei Passwort und bei localhost. Ändere nichts
+bei localhost. Bei Passwort musst du das Passwort eingeben das du als Database eingeben hast bei
+der Mariadb konfiguration.
+Nun funktioniert Nextcloud!
+
+
+
+7. Wichtige Dateien
+Wichtige Dateien befinden sich hier:
+etc/php/*/apache2/php.ini
+/var/www/html/nextcloud/.htaccess
+/var/www/html/nextcloud/.user.ini
+/etc/apache2/apache2.conf
+/var/www/html/nextcloud/config/config.php
+
+
+
+8. Nextcloud ordner verschieben
+Falls du den Nextcloud Ordner verschieben willst, suche nach Linuxbabe Nextcloud install. Dort wird es erklärt.

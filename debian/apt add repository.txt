@@ -1,0 +1,31 @@
+Repository hinzufügen
+
+Info: Beispiel Key heisst plex.key
+1. Key herunterladen mit wget auf den root directory
+2. Folgenden befehl ausführen: gpg –dearmor plex.key
+3. Neue datei wurde erstellt mit dem Namen plex.key.gpg
+4. Lösche plex.key
+5. Verschiebe plex.key.gpg zu /usr/share/keyrings
+6. Im Ordner /etc/apt/sources.list.d/ erstelle eine datei mit dem namen den
+du willst für deine Repository mit der endung .list
+7. So wird es dann aussehen /etc/apt/sources.list.d/plexmediaserver.list
+8. In der datei wirst du die Repository hinzufügen
+9. Damit apt weiss zu welcher Repository welche pgp datei gehört muss
+man das im plexmediaserver.list eingeben.
+10. Zwischen DEB UND DEM LINK DER REPOSITORY kommt folgender text dazwischen: [signed-by=/usr/share/keyrings/plex.key.gpg]
+11. Wie du siehst muss man hier die location vom vorhin gemachten
+plex.key.gpg angeben damit apt weiss das diese Repository und diesen gpg
+nutzen kann um sicher pakete zu herunterladen.
+12. Es spielt keine rolle wie der key heisst oder .list datei, solange die
+location stimmmt.
+Schaue auf Seite zwei für Bilder
+So würde das dann fertig aussehen:
+Falls du es nicht verstehst, schau bei diesen 3 links, mit denen wirst du es
+garantiert schaffen:
+Für allgemeine Verständnis:
+https://newbedev.com/what-commands-exactly-should-replace-the-
+deprecated-apt-key
+Um key auf pgp zu machen:
+https://www.techrepublic.com/article/how-to-add-an-openpgp-repository-
+key-now-that-apt-key-is-deprecated/
+
